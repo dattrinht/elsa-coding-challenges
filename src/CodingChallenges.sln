@@ -11,6 +11,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "deploy\do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizSession.API", "api\QuizSession.API\QuizSession.API.csproj", "{89FAFA28-130A-4332-91A0-CF9F07E622C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationServer", "api\NotificationServer\NotificationServer.csproj", "{C0E152C6-3A30-4E79-969B-18C8AA3B7ADF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{89FAFA28-130A-4332-91A0-CF9F07E622C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89FAFA28-130A-4332-91A0-CF9F07E622C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89FAFA28-130A-4332-91A0-CF9F07E622C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0E152C6-3A30-4E79-969B-18C8AA3B7ADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0E152C6-3A30-4E79-969B-18C8AA3B7ADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0E152C6-3A30-4E79-969B-18C8AA3B7ADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0E152C6-3A30-4E79-969B-18C8AA3B7ADF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FEA0C318-FFED-4D39-8781-265718CA43DD} = {65B00E49-4B58-40EE-90F7-0DE4BCEA96B1}
 		{89FAFA28-130A-4332-91A0-CF9F07E622C8} = {5479F1EB-6E0C-4E8C-8943-D19E0262CE6D}
+		{C0E152C6-3A30-4E79-969B-18C8AA3B7ADF} = {5479F1EB-6E0C-4E8C-8943-D19E0262CE6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1336FB5F-9A25-44BB-AF09-D14A2B43CD62}

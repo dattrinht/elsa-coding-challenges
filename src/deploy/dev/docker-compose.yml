@@ -77,58 +77,6 @@ services:
       quiz-session-network:
         ipv4_address: 192.168.80.11
 
-  schema-registry0:
-    image: confluentinc/cp-schema-registry:7.3.2
-    profiles: ["kafka", "all"]
-    hostname: schema-registry0
-    container_name: schema-registry0
-    ports:
-      - 8085:8085
-    depends_on:
-      - kafka0
-    environment:
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka0:29092
-      SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL: PLAINTEXT
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry0
-      SCHEMA_REGISTRY_LISTENERS: http://schema-registry0:8085
-      SCHEMA_REGISTRY_SCHEMA_REGISTRY_INTER_INSTANCE_PROTOCOL: "http"
-      SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: INFO
-      SCHEMA_REGISTRY_KAFKASTORE_TOPIC: _schemas
-    networks:
-      quiz-session-network:
-        ipv4_address: 192.168.80.12
-
-  kafka-connect0:
-    image: confluentinc/cp-kafka-connect:7.3.2
-    profiles: ["kafka", "all"]
-    hostname: kafka-connect0
-    container_name: kafka-connect0
-    ports:
-      - 8083:8083
-    depends_on:
-      - kafka0
-      - schema-registry0
-    environment:
-      CONNECT_BOOTSTRAP_SERVERS: kafka0:29092
-      CONNECT_GROUP_ID: compose-connect-group
-      CONNECT_CONFIG_STORAGE_TOPIC: _connect_configs
-      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_OFFSET_STORAGE_TOPIC: _connect_offset
-      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_STATUS_STORAGE_TOPIC: _connect_status
-      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
-      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry0:8085
-      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.storage.StringConverter
-      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry0:8085
-      CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
-      CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
-      CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect0
-      CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
-    networks:
-      quiz-session-network:
-        ipv4_address: 192.168.80.13
-
   kafka-ui:
     container_name: kafka-ui
     profiles: ["kafka", "all"]
@@ -137,8 +85,6 @@ services:
       - 8080:8080
     depends_on:
       - kafka0
-      - schema-registry0
-      - kafka-connect0
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka0:29092
@@ -151,7 +97,7 @@ services:
       KAFKA_CLUSTERS_0_AUDIT_CONSOLEAUDITENABLED: 'true'
     networks:
       quiz-session-network:
-        ipv4_address: 192.168.80.14
+        ipv4_address: 192.168.80.12
 
   kafka-init-topics:
     image: confluentinc/cp-kafka:7.3.2
@@ -162,13 +108,15 @@ services:
     command: |
       "
       # blocks until kafka is reachable
-      kafka-topics --bootstrap-server 192.168.80.11:29092 --list
+      kafka-topics --bootstrap-server 192.168.80.11:9092 --list
 
       echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server 192.168.80.11:29092 --create --if-not-exists --topic quiz.session.v1 --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server 192.168.80.11:9092 --create --if-not-exists --topic quiz.session.userJoined.v1 --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server 192.168.80.11:9092 --create --if-not-exists --topic quiz.session.userLeft.v1 --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server 192.168.80.11:9092 --create --if-not-exists --topic quiz.session.sessionStarted.v1 --replication-factor 1 --partitions 1
 
       echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server 192.168.80.11:29092 --list
+      kafka-topics --bootstrap-server 192.168.80.11:9092 --list
       "
 
 volumes:

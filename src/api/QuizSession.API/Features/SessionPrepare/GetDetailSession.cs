@@ -44,5 +44,7 @@ public class GetDetailSession(QuizSessionDbContext dbContext) : EndpointWithoutR
 [Mapper]
 public partial class GetDetailSessionMapper
 {
+#pragma warning disable RMG012 // Source member was not found for target member
     public partial GetDetailSessionResponse EntityToDto(DbContext.Entities.QuizSession entity);
+#pragma warning restore RMG012 // Source member was not found for target member
 }

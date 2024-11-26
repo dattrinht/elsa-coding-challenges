@@ -34,6 +34,7 @@ public class StartSession(QuizSessionDbContext dbContext) : Endpoint<StartSessio
 
         quizSession.Status = QuizSessionStatus.Started;
         var result = await _dbContext.QuizSession.Update(quizSession);
+        await KafkaProducer.Produce("quiz.session.sessionStarted.v1", quizSessionId, new SessionStarted(quizSessionId));
         return TypedResults.Ok(new StartSessionResponse(result));
     }
 }

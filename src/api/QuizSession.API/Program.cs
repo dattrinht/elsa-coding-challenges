@@ -1,11 +1,9 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var services = builder.Services;
 
-services
-    .AddFastEndpoints()
-    .SwaggerDocument();
+services.AddFastEndpoints()
+        .SwaggerDocument();
 
 services.AddCors(opt => opt.AddPolicy("AllowAll", policy =>
 {
@@ -31,10 +29,7 @@ app.UseCors("AllowAll");
 app.UseSeedingDatabase();
 app.UseMigrationDatabase();
 
-app
-    .UseFastEndpoints()
-    .UseSwaggerGen();
-
-app.MapGet("/", () => "Hello!!");
+app.UseFastEndpoints()
+   .UseSwaggerGen();
 
 app.Run("http://*:5003");

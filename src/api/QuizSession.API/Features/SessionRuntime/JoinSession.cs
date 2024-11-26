@@ -1,10 +1,13 @@
-﻿namespace QuizSession.API.Features.SessionRuntime;
+﻿using Confluent.Kafka;
+
+namespace QuizSession.API.Features.SessionRuntime;
 
 public record JoinSessionRequest(string User);
 
 public record JoinSessionResponse(long Id);
 
-public class JoinSession(QuizSessionDbContext dbContext) : Endpoint<JoinSessionRequest, Results<BadRequest, Ok<JoinSessionResponse>>>
+public class JoinSession(QuizSessionDbContext dbContext)
+    : Endpoint<JoinSessionRequest, Results<BadRequest, Ok<JoinSessionResponse>>>
 {
     private readonly QuizSessionDbContext _dbContext = dbContext;
 
@@ -43,6 +46,7 @@ public class JoinSession(QuizSessionDbContext dbContext) : Endpoint<JoinSessionR
             UserName = request.User,
         };
         await _dbContext.Participant.Create(newParticipant);
+        await KafkaProducer.Produce("quiz.session.userJoined.v1", quizSessionId, new UserJoined(quizSessionId, newParticipant.Id, request.User));
         return TypedResults.Ok(new JoinSessionResponse(newParticipant!.Id));
     }
 }
