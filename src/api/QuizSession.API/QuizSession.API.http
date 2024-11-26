@@ -1,0 +1,49 @@
+@QuizSession.API_HostAddress = http://localhost:5003
+
+## Session Prepare
+### Open a new Quiz Session
+POST {{QuizSession.API_HostAddress}}/v1/session-prepare/open
+Accept: application/json
+Content-Type: application/json
+
+{
+    "user": "alice"
+}
+
+### Get Detail of a Quiz Session
+@GetDetailSession.Id = 1310665901032341504
+GET {{QuizSession.API_HostAddress}}/v1/session-prepare/{{GetDetailSession.Id}}/detail
+Accept: application/json
+
+## Session Runtime
+### Join a new Quiz Session
+@JoinSession.Id = 1310665901032341504
+POST {{QuizSession.API_HostAddress}}/v1/session-runtime/{{JoinSession.Id}}/join
+Accept: application/json
+Content-Type: application/json
+
+{
+    "user": "bob"
+}
+
+### Leave a Quiz Session
+@LeaveSession.Id = 1310665901032341504
+POST {{QuizSession.API_HostAddress}}/v1/session-runtime/{{LeaveSession.Id}}/leave
+Accept: application/json
+Content-Type: application/json
+
+{
+    "user": "alice"
+}
+
+### Start a Quiz Session
+@StartSession.Id = 1310665901032341504
+POST {{QuizSession.API_HostAddress}}/v1/session-runtime/{{StartSession.Id}}/start
+Accept: application/json
+Content-Type: application/json
+
+{
+    "user": "alice"
+}
+
+###

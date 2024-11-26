@@ -1,0 +1,46 @@
+services:
+
+  quiz-session.api:
+    profiles: ["api", "debug"]
+    environment:
+        ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+    build:
+        context: ../../
+        dockerfile: api/QuizSession.API/Dockerfile
+    restart: always
+    ports:
+      - 5003:5003
+    depends_on:
+      - quiz-session.db
+    networks:
+      quiz-session-network:
+        ipv4_address: 192.168.88.2
+    volumes:
+      - "api-data:/var/api-data"
+
+  quiz-session.db:
+    image: postgres:15.5-alpine
+    profiles: ["db", "debug"]
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    networks:
+      quiz-session-network:
+        ipv4_address: 192.168.88.3
+
+volumes:
+  api-data:
+  db-data:
+
+networks:
+  quiz-session-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.88.0/20
+          gateway: 192.168.88.1
