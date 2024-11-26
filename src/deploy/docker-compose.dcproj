@@ -10,13 +10,13 @@
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="prod\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include=".dockerignore" />
     <None Include=".env" />
     <None Include=".env.dev" />
     <None Include=".env.prod" />
     <None Include="dev\docker-compose.yml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="prod\" />
   </ItemGroup>
 </Project>
