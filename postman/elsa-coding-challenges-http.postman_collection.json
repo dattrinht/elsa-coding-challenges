@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "e53daa93-33ec-4747-b0ed-ff92aeb09fc3",
+		"name": "elsa-coding-challenges-http",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19578886"
+	},
+	"item": [
+		{
+			"name": "Open a new Session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"quiz_session_id\", pm.response.json().quizSessionId);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"alice\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_api_url}}/v1/session-prepare/open",
+					"host": [
+						"{{base_api_url}}"
+					],
+					"path": [
+						"v1",
+						"session-prepare",
+						"open"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get detail of a Session",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"alice\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_api_url}}/v1/session-prepare/{{quiz_session_id}}/detail",
+					"host": [
+						"{{base_api_url}}"
+					],
+					"path": [
+						"v1",
+						"session-prepare",
+						"{{quiz_session_id}}",
+						"detail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alice join the Session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"alice_participant_id\", pm.response.json().id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"alice\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_api_url}}/v1/session-runtime/{{quiz_session_id}}/join",
+					"host": [
+						"{{base_api_url}}"
+					],
+					"path": [
+						"v1",
+						"session-runtime",
+						"{{quiz_session_id}}",
+						"join"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bob join the Session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"bob_participant_id\", pm.response.json().id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"bob\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_api_url}}/v1/session-runtime/{{quiz_session_id}}/join",
+					"host": [
+						"{{base_api_url}}"
+					],
+					"path": [
+						"v1",
+						"session-runtime",
+						"{{quiz_session_id}}",
+						"join"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alice start the Session",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"alice\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_api_url}}/v1/session-runtime/{{quiz_session_id}}/start",
+					"host": [
+						"{{base_api_url}}"
+					],
+					"path": [
+						"v1",
+						"session-runtime",
+						"{{quiz_session_id}}",
+						"start"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alice submit an answer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quizSessionId\": {{quiz_session_id}},\r\n    \"participantId\": {{alice_participant_id}},\r\n    \"isCorrect\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_api_url}}/v1/submit",
+					"host": [
+						"{{base_api_url}}"
+					],
+					"path": [
+						"v1",
+						"submit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bob submit an answer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quizSessionId\": {{quiz_session_id}},\r\n    \"participantId\": {{bob_participant_id}},\r\n    \"isCorrect\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_api_url}}/v1/submit",
+					"host": [
+						"{{base_api_url}}"
+					],
+					"path": [
+						"v1",
+						"submit"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_api_url",
+			"value": "http://localhost:5003",
+			"type": "string"
+		},
+		{
+			"key": "quiz_session_id",
+			"value": ""
+		},
+		{
+			"key": "alice_participant_id",
+			"value": ""
+		}
+	]
+}
