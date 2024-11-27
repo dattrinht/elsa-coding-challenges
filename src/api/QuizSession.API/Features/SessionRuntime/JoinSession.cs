@@ -4,7 +4,7 @@ namespace QuizSession.API.Features.SessionRuntime;
 
 public record JoinSessionRequest(string User);
 
-public record JoinSessionResponse(long Id);
+public record JoinSessionResponse(string Id);
 
 public class JoinSession(QuizSessionDbContext dbContext)
     : Endpoint<JoinSessionRequest, Results<BadRequest, Ok<JoinSessionResponse>>>
@@ -36,7 +36,7 @@ public class JoinSession(QuizSessionDbContext dbContext)
         var participants = await _dbContext.Participant.GetByQuery(participantQuery);
         if (participants?.Any() == true)
         {
-            return TypedResults.Ok(new JoinSessionResponse(participants.FirstOrDefault()!.Id));
+            return TypedResults.Ok(new JoinSessionResponse(participants.FirstOrDefault()!.Id.ToString()));
         }
 
         var newParticipant = new Participant
@@ -47,6 +47,6 @@ public class JoinSession(QuizSessionDbContext dbContext)
         };
         await _dbContext.Participant.Create(newParticipant);
         await KafkaProducer.Produce("quiz.session.userJoined.v1", quizSessionId, new UserJoined(quizSessionId, newParticipant.Id, request.User));
-        return TypedResults.Ok(new JoinSessionResponse(newParticipant!.Id));
+        return TypedResults.Ok(new JoinSessionResponse(newParticipant!.Id.ToString()));
     }
 }

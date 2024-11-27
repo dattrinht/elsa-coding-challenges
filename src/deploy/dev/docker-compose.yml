@@ -12,6 +12,7 @@ services:
       - 5003:5003
     depends_on:
       - quiz-session.db
+      - kafka0
     networks:
       quiz-session-network:
         ipv4_address: 192.168.80.2
@@ -32,6 +33,22 @@ services:
     networks:
       quiz-session-network:
         ipv4_address: 192.168.80.3
+
+  notification-server:
+    profiles: ["api", "all"]
+    environment:
+        ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+    build:
+        context: ../../
+        dockerfile: api/NotificationServer/Dockerfile
+    restart: always
+    ports:
+      - 5004:5004
+    depends_on:
+      - kafka0
+    networks:
+      quiz-session-network:
+        ipv4_address: 192.168.80.4
 
   zookeeper0:
     image: confluentinc/cp-zookeeper:7.3.2
@@ -73,8 +90,6 @@ services:
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
     depends_on:
       - zookeeper0
-    volumes:
-      - "kafka-data:/var/lib/kafka/data"
     networks:
       quiz-session-network:
         ipv4_address: 192.168.80.11
@@ -104,7 +119,6 @@ services:
 volumes:
   api-data:
   db-data:
-  kafka-data:
 
 networks:
   quiz-session-network:

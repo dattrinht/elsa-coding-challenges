@@ -2,7 +2,7 @@
 
 public record OpenNewSessionRequest(string User);
 
-public record OpenNewSessionResponse(long QuizSessionId);
+public record OpenNewSessionResponse(string QuizSessionId);
 
 public class OpenNewSession(QuizSessionDbContext dbContext) : Endpoint<OpenNewSessionRequest, OpenNewSessionResponse>
 {
@@ -26,6 +26,6 @@ public class OpenNewSession(QuizSessionDbContext dbContext) : Endpoint<OpenNewSe
             CreatedBy = request.User,
         };
         await _dbContext.QuizSession.Create(newQuizSession);
-        return new(newQuizSession.Id);
+        return new(newQuizSession.Id.ToString());
     }
 }

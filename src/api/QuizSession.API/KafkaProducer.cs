@@ -4,7 +4,7 @@ public static class KafkaProducer
 {
     public static async Task Produce<TKey, TValue>(string topic, TKey key, TValue value)
     {
-        var host = "192.168.80.11:9092";
+        var host = "kafka0:29092";
 #if DEBUG
         host = "localhost:9092";
 #endif

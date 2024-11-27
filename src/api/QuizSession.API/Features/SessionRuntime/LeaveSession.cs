@@ -2,7 +2,7 @@
 
 public record LeaveSessionRequest(string User);
 
-public record LeaveSessionResponse(long Id);
+public record LeaveSessionResponse(string Id);
 
 public class LeaveSession(QuizSessionDbContext dbContext) : Endpoint<LeaveSessionRequest, Results<BadRequest, Ok<LeaveSessionResponse>>>
 {
@@ -39,6 +39,6 @@ public class LeaveSession(QuizSessionDbContext dbContext) : Endpoint<LeaveSessio
         var participantId = participants.First().Id;
         await _dbContext.Participant.Delete(participantId);
         await KafkaProducer.Produce("quiz.session.userLeft.v1", quizSessionId, new UserLeft(quizSessionId, participants.First().Id, request.User));
-        return TypedResults.Ok(new LeaveSessionResponse(participantId));
+        return TypedResults.Ok(new LeaveSessionResponse(participantId.ToString()));
     }
 }

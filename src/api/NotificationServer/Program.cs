@@ -15,7 +15,11 @@ builder.Services.AddMassTransit(x =>
 
         rider.UsingKafka((context, k) =>
         {
-            k.Host("localhost:9092");
+            var host = "kafka0:29092";
+#if DEBUG
+            host = "localhost:9092";
+#endif
+            k.Host(host);
 
             k.TopicEndpoint<SessionStarted>("quiz.session.sessionStarted.v1", "notification-server", e =>
             {
@@ -57,4 +61,4 @@ app.MapPost("/hello", async ([FromServices] IHubContext<QuizSessionHub> hubConte
     await hubContext.Clients.All.SendAsync("Notify", $"Its worked: {DateTime.Now}");
 });
 
-app.Run();
+app.Run("http://*:5004");
