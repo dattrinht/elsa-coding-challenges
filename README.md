@@ -141,3 +141,26 @@ This container diagram outlines the architecture and interactions between variou
    - 4.2. System: Calculate new ranking and raise event RankingUpdated.
    - 4.3. System: Consume event RankingUpdated.
    - 4.4. System: Send a command to update leaderboard.
+---
+## Working code
+Rune the following command to run the application:
+```sh
+cd .\src\deploy\dev
+docker compose --env-file ../.env.dev --profile all up -d
+```
+Import the Postman http collection and play with it:
+![image](https://github.com/user-attachments/assets/6d0441de-f381-4d61-a1ea-f59380a7f54d)
+
+To connect to the socket server:
+- Create the Postman WebSocket request.
+- Connect to URL: ws://localhost:5004.
+- Send the handshake message:
+```json
+{
+    "protocol": "json",
+    "version": 1
+}
+```
+- Use the filter: "type:1"
+
+![image](https://github.com/user-attachments/assets/e5274e15-fad8-4966-891d-f83cc3dc9589)
