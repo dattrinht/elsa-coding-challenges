@@ -1,6 +1,6 @@
 ﻿namespace QuizSession.API.Features.Submission;
 
-public record UserSubmitRequest(long QuizSessionId, long ParticipantId, long QuestionId, long AnswerId);
+public record UserSubmitRequest(long QuizSessionId, long ParticipantId, bool IsCorrect);
 
 public record UserSubmitResponse(bool IsSuccess);
 
@@ -21,7 +21,8 @@ public class UserSubmit(QuizSessionDbContext dbContext) : Endpoint<UserSubmitReq
     public override async Task<Results<BadRequest, Ok<UserSubmitResponse>>> ExecuteAsync(UserSubmitRequest request, CancellationToken ct)
     {
         var quizSessionId = request.QuizSessionId;
-        await KafkaProducer.Produce("quiz.session.userSubmmitted.v1", quizSessionId, new UserSubmitted(quizSessionId, request.ParticipantId, request.QuizSessionId, request.AnswerId, true));
+        // Mock data for userSubmmitted
+        await KafkaProducer.Produce("quiz.session.userSubmitted.v1", quizSessionId, new UserSubmitted(quizSessionId, request.ParticipantId, request.IsCorrect));
         return TypedResults.Ok(new UserSubmitResponse(true));
     }
 }

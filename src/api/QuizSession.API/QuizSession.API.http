@@ -11,13 +11,13 @@ Content-Type: application/json
 }
 
 ### Get Detail of a Quiz Session
-@GetDetailSession.Id = 1310665901032341504
+@GetDetailSession.Id = 1311253165223444480
 GET {{QuizSession.API_HostAddress}}/v1/session-prepare/{{GetDetailSession.Id}}/detail
 Accept: application/json
 
 ## Session Runtime
 ### Join a new Quiz Session
-@JoinSession.Id = 1311157423913828352
+@JoinSession.Id = 1311253165223444480
 POST {{QuizSession.API_HostAddress}}/v1/session-runtime/{{JoinSession.Id}}/join
 Accept: application/json
 Content-Type: application/json
@@ -37,13 +37,25 @@ Content-Type: application/json
 }
 
 ### Start a Quiz Session
-@StartSession.Id = 1310665901032341504
+@StartSession.Id = 1311253165223444480
 POST {{QuizSession.API_HostAddress}}/v1/session-runtime/{{StartSession.Id}}/start
 Accept: application/json
 Content-Type: application/json
 
 {
     "user": "alice"
+}
+
+### Submit an answer
+@StartSession.Id = 1311253165223444480
+POST {{QuizSession.API_HostAddress}}/v1/submit
+Accept: application/json
+Content-Type: application/json
+
+{
+    "quizSessionId": 1311253165223444480,
+    "participantId": 1311253412829986815,
+    "isCorrect": false
 }
 
 ###

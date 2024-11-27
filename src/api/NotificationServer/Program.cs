@@ -19,21 +19,25 @@ builder.Services.AddMassTransit(x =>
 
             k.TopicEndpoint<SessionStarted>("quiz.session.sessionStarted.v1", "notification-server", e =>
             {
+                e.CreateIfMissing();
                 e.ConfigureConsumer<SessionStartedConsumer>(context);
             });
 
             k.TopicEndpoint<UserJoined>("quiz.session.userJoined.v1", "notification-server", e =>
             {
+                e.CreateIfMissing();
                 e.ConfigureConsumer<UserJoinedConsumer>(context);
             });
 
             k.TopicEndpoint<UserLeft>("quiz.session.userLeft.v1", "notification-server", e =>
             {
+                e.CreateIfMissing();
                 e.ConfigureConsumer<UserLeftConsumer>(context);
             });
 
             k.TopicEndpoint<UserSubmitted>("quiz.session.userSubmitted.v1", "notification-server", e =>
             {
+                e.CreateIfMissing();
                 e.ConfigureConsumer<UserSubmittedConsumer>(context);
             });
         });
