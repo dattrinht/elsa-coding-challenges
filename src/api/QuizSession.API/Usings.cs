@@ -4,7 +4,6 @@ global using FastEndpoints;
 global using FastEndpoints.Swagger;
 global using IdGen;
 global using Npgsql;
-global using MassTransit;
 global using Microsoft.AspNetCore.Http.HttpResults;
 global using Microsoft.Extensions.Options;
 global using QuizSession.API;

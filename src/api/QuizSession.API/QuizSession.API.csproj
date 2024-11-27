@@ -13,8 +13,6 @@
     <PackageReference Include="FastEndpoints" Version="5.31.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.31.0" />
     <PackageReference Include="IdGen" Version="3.0.7" />
-    <PackageReference Include="MassTransit" Version="8.3.2" />
-    <PackageReference Include="MassTransit.Kafka" Version="8.3.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Npgsql" Version="9.0.1" />
     <PackageReference Include="Riok.Mapperly" Version="4.1.1" />

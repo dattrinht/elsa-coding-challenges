@@ -111,9 +111,10 @@ services:
       kafka-topics --bootstrap-server 192.168.80.11:9092 --list
 
       echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server 192.168.80.11:9092 --create --if-not-exists --topic quiz.session.sessionStarted.v1 --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server 192.168.80.11:9092 --create --if-not-exists --topic quiz.session.userJoined.v1 --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server 192.168.80.11:9092 --create --if-not-exists --topic quiz.session.userLeft.v1 --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server 192.168.80.11:9092 --create --if-not-exists --topic quiz.session.sessionStarted.v1 --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server 192.168.80.11:9092 --create --if-not-exists --topic quiz.session.userSubmitted.v1 --replication-factor 1 --partitions 1
 
       echo -e 'Successfully created the following topics:'
       kafka-topics --bootstrap-server 192.168.80.11:9092 --list
